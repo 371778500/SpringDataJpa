@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+     
+     	<!-- 开启AOP监听，只对当前配置文件有效 -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- 基于@AspectJ切面的驱动器 -->
+	<aop:aspectj-autoproxy />
+     
+     
+     <!-- 激活@Controller模式 -->
+     <mvc:annotation-driven />
+	<context:component-scan base-package="com.csair.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+     
+     
+     <!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
+     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+ 
+     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <property name="prefix">
+             <value>/WEB-INF/page/</value>
+         </property>
+         <property name="suffix">
+             <value>.html</value>
+         </property>
+     </bean>
+     
+      <!-- 文件上传表单的视图解析器 -->  
+    <bean id="multipartResolver"    
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+        <!-- one of the properties available; the maximum file size in bytes -->    
+        <property name="maxUploadSize" value="51200000" />    
+    </bean>    
+     
+     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL,上面两个配置都没找到的返回url用这个处理-->	
+	<mvc:default-servlet-handler/>  
+	<mvc:resources mapping="/index/**" location="/" />
+</beans>
