@@ -92,8 +92,14 @@ public class UserController {
 		String originalFilename=file.getOriginalFilename();
 		try {
 			InputStream in =file.getInputStream();
-//			File img=new File("D:/JavaFrame/workspace/TestSpringJpa/WebContent/img/"+originalFilename);//可以是任何图片格式.jpg,.png等
-			File img=new File("E:/BPM/apache-tomcat-8.0.9/webapps/TestSpringJpa/img/"+originalFilename);//可以是任何图片格式.jpg,.png等 
+			//获取动态路径
+			String rootPath=getClass().getResource("/").getFile().toString();
+			rootPath=rootPath.substring(1);
+			int index=rootPath.indexOf("WEB-INF");
+			rootPath=rootPath.substring(0, index)+"img/";
+			//生成图片的路径
+			File img=new File(rootPath+originalFilename);//可以是任何图片格式.jpg,.png等 
+			
 			FileOutputStream fos=new FileOutputStream(img);  
             byte[] b = new byte[1024];  
             int nRead = 0;  
