@@ -104,7 +104,7 @@ public class UserController {
             byte[] b = new byte[1024];  
             int nRead = 0;  
             while ((nRead = in.read(b)) != -1) {  
-                fos.write(b, 0, nRead);  
+                fos.write(b, 0, nRead); 
             } 
             fos.flush(); 
             fos.close(); 
